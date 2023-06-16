@@ -1,10 +1,10 @@
-import { Vector } from "./Vector";
+import {Vector} from "./Vector.js";
 
 class Movable {
     /**
      * The maximum acceleration the moving entity can reach.
      */
-    protected max_acceleration: number;
+    protected maxAcceleration: number;
     /**
      * The rates at which the entity accelerates and decelerates.
      * A rate of 80 means that the entity can accelerate by 80 units per second.
@@ -35,15 +35,15 @@ class Movable {
      * @protected
      */
     protected healthPoints: number;
-    protected initialHealthPoints: number;
 
-    constructor(pos: Vector, accel: Vector, radius: number, max_acceleration: number) {
+    constructor(pos: Vector, accel: Vector, radius: number, maxAcceleration: number, healthPoints: number) {
         this.position = pos;
         this.acceleration = accel;
         this.radius = radius;
-        this.max_acceleration = max_acceleration;
+        this.maxAcceleration = maxAcceleration;
         this.accelerationRate = 80;
         this.decelerationRate = 40;
+        this.healthPoints = healthPoints;
     }
 
     /**
@@ -57,8 +57,8 @@ class Movable {
         const DECELERATION: number = this.decelerationRate * deltaTime;
 
         // Decelerate
-        this.acceleration.x -= DECELERATION * this.acceleration.x / this.max_acceleration;
-        this.acceleration.y -= DECELERATION * this.acceleration.y / this.max_acceleration;
+        this.acceleration.x -= DECELERATION * this.acceleration.x / this.maxAcceleration;
+        this.acceleration.y -= DECELERATION * this.acceleration.y / this.maxAcceleration;
         // If the acceleration gets too small set it to 0. This prevents unnecessary long numbers.
         if(this.acceleration.x < 0.3 && this.acceleration.x > -0.3)
             this.acceleration.x = 0;
@@ -68,15 +68,15 @@ class Movable {
         // Accelerate
         this.acceleration.x += accelerationDirection.x * ACCELERATION;
         this.acceleration.y += accelerationDirection.y * ACCELERATION;
-        // if the acceleration gets too high or low it gets set to max_acceleration or -max_acceleration
-        if(this.acceleration.x > this.max_acceleration)
-            this.acceleration.x = this.max_acceleration;
-        if(this.acceleration.x < -this.max_acceleration)
-            this.acceleration.x = -this.max_acceleration;
-        if(this.acceleration.y > this.max_acceleration)
-            this.acceleration.y = this.max_acceleration;
-        if(this.acceleration.y < -this.max_acceleration)
-            this.acceleration.y = -this.max_acceleration;
+        // if the acceleration gets too high or low it gets set to maxAcceleration or -maxAcceleration
+        if(this.acceleration.x > this.maxAcceleration)
+            this.acceleration.x = this.maxAcceleration;
+        if(this.acceleration.x < -this.maxAcceleration)
+            this.acceleration.x = -this.maxAcceleration;
+        if(this.acceleration.y > this.maxAcceleration)
+            this.acceleration.y = this.maxAcceleration;
+        if(this.acceleration.y < -this.maxAcceleration)
+            this.acceleration.y = -this.maxAcceleration;
 
         // Update the position
         this.position.x += this.acceleration.x * deltaTime;
@@ -115,6 +115,11 @@ class Movable {
         return this.position;
     }
 
+    public setPosition(position: Vector)
+    {
+        this.position = position;
+    }
+
     public getAcceleration(): Vector {
         return this.acceleration;
     }
@@ -123,8 +128,16 @@ class Movable {
         return this.radius;
     }
 
-    public getMaxAccerleration() {
-        return this.max_acceleration;
+    public getMaxAccerleration(): number {
+        return this.maxAcceleration;
+    }
+
+    public getHealthPoints(): number {
+        return this.healthPoints;
+    }
+
+    public setHealthPoints(hp: number) {
+        this.healthPoints = hp;
     }
 
     public toString(): string {

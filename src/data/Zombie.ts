@@ -14,8 +14,8 @@ class Zombie extends Movable {
      */
     private attackSpeed: number;
 
-    constructor(position: Vector, acceleration: Vector, radius: number, max_acceleration: number) {
-        super(position, acceleration,radius,max_acceleration);
+    constructor(position: Vector, acceleration: Vector, radius: number, max_acceleration: number,healthPoints: number) {
+        super(position, acceleration,radius,max_acceleration,healthPoints);
     }
 
 }
